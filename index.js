@@ -1,8 +1,12 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const employee = require('./lib/employee');
-
-const generateHTML = ({ name, id, officeNumber, email}) =>
+const pushEmployees = [];
+const Employee = require('./lib/employee');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
+// import manager intern engineer
+const generateHTML = ({ name, id, officeNumber, email, school, gitHub}) =>
   `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,19 +19,36 @@ const generateHTML = ({ name, id, officeNumber, email}) =>
 <body>
 <div class="card" style="width: 18rem;">
   <div class="card-body">
-    <h5 class="card-title">Manager ${name}</h5>
+    <h5 class="card-title">Manager: ${name}</h5>
     <h6 class="card-subtitle mb-2 text-muted"Employee ID ${id}></h6>
-    <p class="card-text">${}.</p>
+    <p class="card-text">${officeNumber}.</p>
     <a href="#" class="card-link">Email: ${email}</a>
     <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+
+<div class="card-body">
+    <h5 class="card-title">Engineer: ${name}</h5>
+    <h6 class="card-subtitle mb-2 text-muted"Employee ID ${id}></h6>
+    <p class="card-text"></p>
+    <a href="#" class="card-link">Email: ${email}</a>
+    <a href="#" class="card-link">GitHub: ${github}</a>
+  </div>
+</div>
+<div class="card-body">
+    <h5 class="card-title">Manager: ${name}</h5>
+    <h6 class="card-subtitle mb-2 text-muted"Employee ID ${id}></h6>
+    <p class="card-text">${school}.</p>
+    <a href="#" class="card-link">Email: ${email}</a>
+    <a href="#" class="card-link"></a>
   </div>
 </div>
  
 </body>
 </html>`;
 
-inquirer
-  .prompt([
+const managerInfo = () => {
+ return inquirer.prompt([
     {
       type: 'input',
       name: 'name',
@@ -41,26 +62,90 @@ inquirer
     {
       type: 'input',
       name: 'email',
-      message: 'What is Managers email address?',
+      message: 'What is Their email address?',
     },
     {
       type: 'input',
       name: 'officeNumber',
-      message: 'What is managers office number?',
+      message: 'What is their office number?',
     },
-    {
-      type: 'input',
-      name: '',
-      message: '?',
-    },
-    // {
-    //   type: 'input',
-    //   name: 'linkedin',
-    //   message: 'Enter your LinkedIn URL.',
-    // },
+    
   ])
 
-  
+.then(managerInput => {
+const {name, id, email, officeNumber} = managerInput;
+const manager = new manager (name, id, email, officeNumber);
+pushEmployees.push(manager);
+
+})
+
+};
+   const createTeam = () => {
+return inquirer.prompt([
+{
+  type: 'list',
+  name: 'role',
+  message: 'Choose the employee role.',
+  choices: ['Engineer', 'Intern']
+},
+{
+  type: 'input',
+ name: 'name',
+  message: 'What is the name of the employee?',
+},
+{
+  type: 'input',
+  name: 'id',
+  message: 'What is the employee ID?',
+},
+{
+  type: 'input',
+  name: 'email',
+  message: 'What is the employee email?',
+},
+{
+  type: 'input',
+  name: 'github',
+  message: "what is the employee's github username.",
+  when: (input) => input.role === "Engineer",
+},
+{
+  type: 'input',
+  name: 'school',
+  message: "Please enter the intern's school",
+  when: (input) => input.role === "Intern",
+},
+{
+type: 'confirm',
+name: 'confirmTeam',
+message: 'Would you like to add more team members?',
+default: false 
+}
+
+ ]) 
+
+ .then(employeesInfo => {
+      let { name, id, email, role, github, school, confirmTeam } = employeesInfo; 
+      let employee; 
+      if (role === "Engineer") {
+          employee = new Engineer (name, id, email, github);
+          console.log(employee);
+      } else if (role === "Intern") {
+          employee = new Intern (name, id, email, school);
+          console.log(employee);
+      }
+      pushEmployees.push(employee); 
+
+      if (confirmTeam) {
+
+          return getTeam(pushEmployees); 
+      } else {
+
+          return pushEmployees;
+      }
+  })
+   
+
 
   .then((answers) => {
     const htmlPageContent = generateHTML(answers);
@@ -69,7 +154,7 @@ inquirer
       err ? console.log(err) : console.log('Successfully created index.html!')
     );
   });
-
+   }
 
 //   AS A manager
 // I WANT to generate a webpage that displays my team's basic info
@@ -96,4 +181,3 @@ inquirer
 // THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
 // WHEN I decide to finish building my team
 // THEN I exit the application, and the HTML is generated
-// ```
