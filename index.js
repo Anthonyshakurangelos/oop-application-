@@ -6,47 +6,22 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 // import manager intern engineer
-const generateHTML = ({ name, id, officeNumber, email, school, gitHub}) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <title>Document</title>
-</head>
-<header>Team info</header>
-<body>
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Manager: ${name}</h5>
-    <h6 class="card-subtitle mb-2 text-muted"Employee ID ${id}></h6>
-    <p class="card-text">${officeNumber}.</p>
-    <a href="#" class="card-link">Email: ${email}</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+const generateHTML = (data) => {
+  console.log(data);
+  return "";
+// <div class="card" style="width: 18rem;">
+//   <div class="card-body">
+//     <h5 class="card-title">Manager: ${name}</h5>
+//     <h6 class="card-subtitle mb-2 text-muted">Employee ID ${id}></h6>
+//     <p class="card-text">${officeNumber}.</p>
+//     <a href="#" class="card-link">Email: ${email}</a>
+//     <a href="#" class="card-link">Another link</a>
+//   </div>
+// </div>
 
-<div class="card-body">
-    <h5 class="card-title">Engineer: ${name}</h5>
-    <h6 class="card-subtitle mb-2 text-muted"Employee ID ${id}></h6>
-    <p class="card-text"></p>
-    <a href="#" class="card-link">Email: ${email}</a>
-    <a href="#" class="card-link">GitHub: ${github}</a>
-  </div>
-</div>
-<div class="card-body">
-    <h5 class="card-title">Manager: ${name}</h5>
-    <h6 class="card-subtitle mb-2 text-muted"Employee ID ${id}></h6>
-    <p class="card-text">${school}.</p>
-    <a href="#" class="card-link">Email: ${email}</a>
-    <a href="#" class="card-link"></a>
-  </div>
-</div>
- 
-</body>
-</html>`;
 
+
+}
 const managerInfo = () => {
  return inquirer.prompt([
     {
@@ -74,12 +49,13 @@ const managerInfo = () => {
 
 .then(managerInput => {
 const {name, id, email, officeNumber} = managerInput;
-const manager = new manager (name, id, email, officeNumber);
+const manager = new Manager (name, id, email, officeNumber);
 pushEmployees.push(manager);
 
 })
 
 };
+
    const createTeam = () => {
 return inquirer.prompt([
 {
@@ -129,32 +105,49 @@ default: false
       let employee; 
       if (role === "Engineer") {
           employee = new Engineer (name, id, email, github);
-          console.log(employee);
+          // console.log(employee);
       } else if (role === "Intern") {
           employee = new Intern (name, id, email, school);
-          console.log(employee);
+          // console.log(employee);
       }
       pushEmployees.push(employee); 
 
       if (confirmTeam) {
 
-          return getTeam(pushEmployees); 
+          return createTeam(pushEmployees); 
       } else {
 
           return pushEmployees;
       }
   })
-   
+}
 
 
-  .then((answers) => {
-    const htmlPageContent = generateHTML(answers);
+  // .then((answers) => {
+  //   const htmlPageContent = generateHTML(answers);
 
-    fs.writeFile('index.html', htmlPageContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created index.html!')
-    );
-  });
-   }
+  //   fs.writeFile('index.html', htmlPageContent, (err) =>
+  //     err ? console.log(err) : console.log('Successfully created index.html!')
+  //   );
+  // });
+  //  }
+
+  function init() {
+    managerInfo()
+    .then(createTeam)
+    .then((answers) => {
+        // console.log(answers);
+        return fs.writeFileSync("index.html", generateHTML(answers), "utf-8");
+      })
+      .catch((err) => {
+        if (err) {
+          throw err;
+        }
+      });
+}
+
+
+init();
 
 //   AS A manager
 // I WANT to generate a webpage that displays my team's basic info
