@@ -5,10 +5,10 @@ const html = [];
     const createManager = (manager) => {
     return `
     <div class="card-body" style="width: 18rem;">
-         <h5 class="card-title">Manager: ${manager.name}</h5>
-         <h6 class="card-subtitle mb-2 text-muted"Employee ID ${manager.id}></h6>
-         <p class="card-text"></p>
-         <a href="#" class="card-link">Email: ${manager.email}</a>
+         <h5 class="card-title">Manager: ${manager.getName()}</h5>
+         <h6 class="card-subtitle mb-2 "></h6>
+         <p class="card-text">Employee ID ${manager.getId()}</p>
+         <a href="#" class="card-link">Email: ${manager.getEmail()}</a>
          <a href="#" class="card-link">Office Number: ${manager.officeNumber}</a>
        </div>
      </div> 
@@ -18,9 +18,9 @@ const html = [];
      return `
      <div class="card-body" style="width: 18rem;">
     <h5 class="card-title">Engineer: ${engineer.name}</h5>
-    <h6 class="card-subtitle mb-2 text-muted"Employee ID ${engineer.id}></h6>
-    <p class="card-text"></p>
-    <a href="#" class="card-link">Email: ${engineer.email}</a>
+    <h6 class="card-subtitle mb-2 "></h6>
+    <p class="card-text">Employee ID ${engineer.getId()}</p>
+    <a href="#" class="card-link">Email: ${engineer.getEmail()}</a>
     <a href="#" class="card-link">GitHub: ${engineer.gitHub}</a>
   </div>
 </div>
@@ -30,19 +30,20 @@ const html = [];
     const createIntern = (intern) => {
     return `  
 <div class="card-body" style="width: 18rem;">
-<h5 class="card-title">Intern: ${intern.name}</h5>
-<h6 class="card-subtitle mb-2 text-muted"Employee ID ${intern.id}></h6>
-<p class="card-text">${intern.school}.</p>
-<a href="#" class="card-link">Email: ${intern.email}</a>
+<h5 class="card-title">Intern: ${intern.getName()}</h5>
+<h6 class="card-subtitle mb-2" ></h6>
+<p class="card-text">Employee ID ${intern.getId()}</p>
+<p class="card-text">School:${intern.school}</p>
+<a href="#" class="card-link">Email: ${intern.getEmail()}</a>
 <a href="#" class="card-link"></a>
 </div>
 </div>
     `
     }
-    
-    html.push(team.filter((employee)=>employee.getRole()==="Manager").map((manager)=> generateManager(manager)))
-    html.push(team.filter((employee)=>employee.getRole()==="Engineer").map((engineer)=> generateEngineer(Engineer)))
-    html.push(team.filter((employee)=>employee.getRole()==="Intern").map((intern)=> generateIntern(Intern)))
+
+    html.push(team.filter((employee)=>employee.getRole()==="Manager").map((manager)=> createManager(manager)))
+    html.push(team.filter((employee)=>employee.getRole()==="Engineer").map((engineer)=> createEngineer(engineer)).join(""))
+    html.push(team.filter((employee)=>employee.getRole()==="Intern").map((intern)=> createIntern(intern)).join(""))
 
    
 
@@ -66,7 +67,7 @@ return `
 <h1>Team info</h1>
 </header>
 <body>
- 
-// </body>
-// </html>`;
+ ${generateTeam(team)}
+ </body>
+ </html>`;
 }

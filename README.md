@@ -11,7 +11,8 @@ By using the command line and running Node, ypu will be prompted with a series o
 *npm i inquirer@8.2.4
 
 ## Usage
-
+Check out this video demo down below!
+https://watch.screencastify.com/v/7pZN1lSeiLjAI1lR00XL'
 ## Credits
 
 *N/A

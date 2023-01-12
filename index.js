@@ -1,27 +1,18 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const template = require('./src/template');
 const pushEmployees = [];
 const Employee = require('./lib/employee');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 // import manager intern engineer
-const generateHTML = (data) => {
-  console.log(data);
-  return "";
-// <div class="card" style="width: 18rem;">
-//   <div class="card-body">
-//     <h5 class="card-title">Manager: ${name}</h5>
-//     <h6 class="card-subtitle mb-2 text-muted">Employee ID ${id}></h6>
-//     <p class="card-text">${officeNumber}.</p>
-//     <a href="#" class="card-link">Email: ${email}</a>
-//     <a href="#" class="card-link">Another link</a>
-//   </div>
-// </div>
 
 
 
-}
+
+
+
 const managerInfo = () => {
  return inquirer.prompt([
     {
@@ -81,7 +72,7 @@ return inquirer.prompt([
 },
 {
   type: 'input',
-  name: 'github',
+  name: 'gitHub',
   message: "what is the employee's github username.",
   when: (input) => input.role === "Engineer",
 },
@@ -101,10 +92,10 @@ default: false
  ]) 
 
  .then(employeesInfo => {
-      let { name, id, email, role, github, school, confirmTeam } = employeesInfo; 
+      let { name, id, email, role, gitHub, school, confirmTeam } = employeesInfo; 
       let employee; 
       if (role === "Engineer") {
-          employee = new Engineer (name, id, email, github);
+          employee = new Engineer (name, id, email, gitHub);
           // console.log(employee);
       } else if (role === "Intern") {
           employee = new Intern (name, id, email, school);
@@ -137,7 +128,7 @@ default: false
     .then(createTeam)
     .then((answers) => {
         // console.log(answers);
-        return fs.writeFileSync("index.html", generateHTML(answers), "utf-8");
+        return fs.writeFileSync("./dist/index.html", template(answers), "utf-8");
       })
       .catch((err) => {
         if (err) {
