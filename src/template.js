@@ -15,7 +15,7 @@ const html = [];
     </div>
     <div class="content">
       <h6>Employee ID:${manager.getId()}</h6>
-      <h6>GitHub:${manager.officeNumber} </h6>.
+      <h6>Office Number:${manager.officeNumber} </h6>.
       <a href="#"></a> <a href="#">Email: ${manager.getEmail()} </a>
       <br>
     </div>

@@ -9,6 +9,7 @@ By using the command line and running Node, ypu will be prompted with a series o
 
 *npm install
 *npm i inquirer@8.2.4
+*npm install --save-dev jest
 
 ## Usage
 Check out this video demo down below!
@@ -20,3 +21,13 @@ https://watch.screencastify.com/v/7pZN1lSeiLjAI1lR00XL'
 ## License
 
 *N/A
+
+## Table of Contents
+
+License
+Description
+Installation
+Usage
+Credits
+Tests
+Questions
