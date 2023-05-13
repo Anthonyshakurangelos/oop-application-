@@ -1,89 +1,88 @@
 const generateTeam = (team) => {
-const html = [];
+  const html = [];
 
-
-    const createManager = (manager) => {
+  const createManager = (manager) => {
     return `
-
+    <div class="card has-background-primary-light">
     <div class="card-content">
-    <div class="media">
-      <div class="media-left">
-      <div class="media-content">
-        <p class="title is-4">Manager:</p>
-        <p class="subtitle is-6">${manager.getName()}</p>
-      </div>
-    </div>
-    <div class="content">
-      <h6>Employee ID:${manager.getId()}</h6>
-      <h6>Office Number:${manager.officeNumber} </h6>.
-      <a href="#"></a> <a href="#">Email: ${manager.getEmail()} </a>
-      <br>
-    </div>
-  </div>
-</div>
-
-    `
-    }
-     const createEngineer = (engineer) => {
-     return `
-
-     <div class="card-content">
-     <div class="media">
-       <div class="media-left">
-       <div class="media-content">
-         <p class="title is-4">Engineer:</p>
-         <p class="subtitle is-6">${engineer.name}</p>
-       </div>
-     </div>
-     <div class="content">
-       <h6>Employee ID:${engineer.getId()}</h6>
-       <h6>GitHub:${engineer.gitHub} </h6>.
-       <a href="#"></a> <a href="#">Email: ${engineer.getEmail()} </a>
-       <br>
-     </div>
-   </div>
- </div>
-
-     `
-    } 
-
-    const createIntern = (intern) => {
-    return `  
-    
-    <div class="card-content">
-      <div class="media">
-        <div class="media-left">
-        <div class="media-content">
-          <p class="title is-4">Intern</p>
-          <p class="subtitle is-6">${intern.getName()}</p>
-        </div>
-      </div>
+      <p class="title is-4 has-text-primary-dark">${manager.getName()}</p>
+      <p class="subtitle is-6 has-text-primary-dark">Manager</p>
+      <hr>
       <div class="content">
-        <h6>Employee ID:${intern.getId()}</h6>
-        <h6>School:${intern.school} </h6>.
-        <a href="#"></a> <a href="#">Email: ${intern.getEmail()} </a>
-        <br>
+        <ul>
+          <li>Employee ID: ${manager.getId()}</li>
+          <li>Office Number: ${manager.officeNumber}</li>
+          <li>Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+`;
+};
+
+const createEngineer = (engineer) => {
+return `
+  <div class="card has-background-primary-light">
+    <div class="card-content">
+      <p class="title is-4 has-text-primary-dark">${engineer.getName()}</p>
+      <p class="subtitle is-6 has-text-primary-dark">Engineer</p>
+      <hr>
+      <div class="content">
+        <ul>
+          <li>Employee ID: ${engineer.getId()}</li>
+          <li>GitHub: <a href="https://github.com/${engineer.gitHub}">${engineer.gitHub}</a></li>
+          <li>Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+`;
+};
+
+const createIntern = (intern) => {
+return `
+  <div class="card has-background-primary-light">
+    <div class="card-content">
+      <p class="title is-4 has-text-primary-dark">${intern.getName()}</p>
+      <p class="subtitle is-6 has-text-primary-dark">Intern</p>
+      <hr>
+      <div class="content">
+        <ul>
+          <li>Employee ID: ${intern.getId()}</li>
+          <li>School: ${intern.school}</li>
+          <li>Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
+        </ul>
       </div>
     </div>
   </div>
 
-    `
-    }
+     `;
+  };
 
-    html.push(team.filter((employee)=>employee.getRole()==="Manager").map((manager)=> createManager(manager)))
-    html.push(team.filter((employee)=>employee.getRole()==="Engineer").map((engineer)=> createEngineer(engineer)).join(""))
-    html.push(team.filter((employee)=>employee.getRole()==="Intern").map((intern)=> createIntern(intern)).join(""))
+ 
+  html.push(
+    team
+      .filter((employee) => employee.getRole() === "Manager")
+      .map((manager) => createManager(manager))
+  );
+  html.push(
+    team
+      .filter((employee) => employee.getRole() === "Engineer")
+      .map((engineer) => createEngineer(engineer))
+      .join("")
+  );
+  html.push(
+    team
+      .filter((employee) => employee.getRole() === "Intern")
+      .map((intern) => createIntern(intern))
+      .join("")
+  );
 
-   
-
-
-
-   return html.join("");
-}
+  return html.join("");
+};
 
 module.exports = (team) => {
-
-return `
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,13 +90,13 @@ return `
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
-  <title>Document</title>
+  <title>Team Info</title>
 </head>
 <header>
-<h1>Team info</h1>
+<h1 class="is-size-1 card has-background-primary-light">Team info</h1>
 </header>
 <body>
  ${generateTeam(team)}
  </body>
  </html>`;
-}
+};
